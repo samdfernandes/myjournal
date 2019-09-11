@@ -1,24 +1,14 @@
 class EntriesController < ApplicationController
   before_action :set_entry, only: [:show, :update, :destroy]
 
-  # GET /entries
-  def index
-    @entries = Entry.all
-
-    render json: @entries
-  end
-
-  # GET /entries/1
-  def show
-    render json: @entry
-  end
 
   # POST /entries
   def create
     @entry = Entry.new(entry_params)
+    @entry.user_id = params[:user_id]
 
     if @entry.save
-      render json: @entry, status: :created, location: @entry
+      render json: @entry, status: :created
     else
       render json: @entry.errors, status: :unprocessable_entity
     end
