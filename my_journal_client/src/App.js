@@ -1,69 +1,98 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Navigation from './components/Navigation';
 import LandingPage from './components/LandingPage';
-import SignIn from './components/SignIn'
+import NewEntry from './components/NewEntry'
+import MyJournal from './components/MyJournal'
+// 
 
-// let watsonURL = process.env.MYJOURNAL_IAM_URL || process.env.SPEECH_TO_TEXT_IAM_APIKEY
-// let watsonAPIKey = process.env.MYJOURNAL_IAM_URL || process.env.SPEECH_TO_TEXT_IAM_URL;
+import axios from 'axios'
+// import SignIn from './components/SignIn'
 
+class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      user: {},
+      entries: [],
+      formInputs: {
+        user_id: '',
+        title: '',
+        text: '',
+        img: ''
+      }
+    }
+    this.handleAdd = this.handleAdd.bind(this)
+    this.handleDelete = this.handleDelete.bind(this)
+    this.handleUpdate = this.handleUpdate.bind(this)
+  }
 
-// // commands bellow copied from IBM Watson's API documentation examples
-// const SpeechToTextV1 = require('ibm-watson/speech-to-text/v1');
-// let fs = require('fs');
+  async getData() {
+    const response = await axios.get('http://localhost:3000/users/1')
+    const data = response.data
+    this.setState({
+      user: data,
+      entries: data.entries
+    })
 
-// const speechToText = new SpeechToTextV1({
-//   iam_apikey: watsonAPIKey,
-//   url: watsonURL
-// });
+    console.log(this.state.user);
+  }
 
-// var params = {
-//   content_type: 'audio/wav',
-//   objectMode: false
-// };
+  componentDidMount(){
+    this.getData()
+  }
 
-// // create the stream
-// var recognizeStream = speechToText.recognizeUsingWebSocket(params);
+  async handleAdd(event, formInputs) {
+    event.preventDefault()
+    await axios.post('http://localhost:3000/users/1/entries', formInputs)
+    this.setState({
+      formInputs:{
+        user_id: '',
+        title: '',
+        text: '',
+        img: ''
+      }
+    })
+    this.getData()
+  }
 
-// // pipe in some audio
-// fs.createReadStream(__dirname + '/resources/speech.wav').pipe(recognizeStream);
+  async handleDelete(deletedEntry) {
+    await axios.delete(`http://localhost:3000/users/1/entries/${deletedEntry.id}`)
+    this.getData()
+  }
 
+  handleSubmit(event) {
+    event.preventDefault()
+    console.log(this.state.formInputs)
+  }
 
-// // these two lines of code will only work if `objectMode` is `false`
-// // pipe out the transcription to a file
-// recognizeStream.pipe(fs.createWriteStream('transcription.txt'));
-// // get strings instead of Buffers from `data` events
-// recognizeStream.setEncoding('utf8');
+  async handleUpdate (event, formInputs) {
+    event.preventDefault()
+    await axios.put(`http://localhost:3000/users/1/entries/${formInputs.id}`, formInputs)
+    this.getData()
+  }
 
+  render () {
+    return (
+      <div className="App">
+        <div className="container">
+          <Navigation />
 
-// recognizeStream.on('data', function(event) { onEvent('Data:', event); });
-// recognizeStream.on('error', function(event) { onEvent('Error:', event); });
-// recognizeStream.on('close', function(event) { onEvent('Close:', event); });
+          <LandingPage />
+          
+          <NewEntry 
+          handleSubmit={this.handleAdd} 
+          user={this.state.user}/>
 
-// // Displays events on the console.
-// function onEvent(name, event) {
-//   console.log(name, JSON.stringify(event, null, 2));
-// };
+          <MyJournal 
+          entries={this.state.entries}
+          handleDelete={this.handleDelete}
+          handleUpdate={this.handleUpdate}/>
 
-// speechToText.recognize(params)
-//   .then(result => {
-//     console.log(JSON.stringify(result, null, 2));
-//   })
-//   .catch(err => {
-//     console.log(err);
-//   });
+        </div>
+      </div>
+    );
+  }
 
-/////////////////////
-
-
-
-function App() {
-  return (
-    <div className="App">
-      <Navigation />
-      <LandingPage />
-      <SignIn />
-    </div>
-  );
 }
 
 export default App;

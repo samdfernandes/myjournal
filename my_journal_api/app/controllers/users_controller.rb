@@ -11,6 +11,7 @@ class UsersController < ApplicationController
   # GET /users/1
   def show
     user_entries = @user.entries
+    # user_entries.created_at = t.created_at.strftime("%a, %m/%d/%y at %I:%M %p")
     render json: @user.to_json(include: :entries)
 
   end
