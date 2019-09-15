@@ -45,3 +45,17 @@ export const updatePost = (id, updatedPost) => async dispatch => {
       dispatch({type: 'FAILED_INIT'})
     }
 };
+
+export const deletePost = (id) => async dispatch => {
+    dispatch({type: 'LOADING'})
+    try {
+      await axios.delete(`http://localhost:3000/users/1/entries/${id}`);
+      dispatch({
+        type: 'DELETE_POST',
+        payload: id
+      });
+    } catch(err) {
+      console.log(err);
+      dispatch({type: 'FAILED_INIT'})
+    }
+};

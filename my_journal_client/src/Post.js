@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { deletePost } from './Reducers/actions'
 
 
 class Post extends Component {
@@ -13,7 +14,7 @@ class Post extends Component {
                      onClick={() => this.props.dispatch({type:'EDIT_POST', id:this.props.post.id})}>
                      Edit</button>
                     <button className='delete'
-                     onClick={() => this.props.dispatch({type:'DELETE_POST', id:this.props.post.id})}>
+                     onClick={() => this.props.deletePost(this.props.post.id)}>
                      Delete</button>
                 </div>
 
@@ -22,4 +23,12 @@ class Post extends Component {
     }
 }
 
-export default connect()(Post)
+const mapStateToProps = (state) => {
+    return {
+        posts: state
+    }
+}
+
+const mapDispatchToProps = ({ deletePost })
+
+export default connect(mapStateToProps, mapDispatchToProps)(Post)
