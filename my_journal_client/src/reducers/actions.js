@@ -30,6 +30,18 @@ export const addPost = (newPost) => async dispatch => {
     }
 };
 
+// export const startEditing = (id) => (dispatch) => {
+//     try {
+//         dispatch({
+//             type:'EDIT_POST', 
+//             payload: id
+//         })
+//     } catch(err) {
+//         console.log(err);
+//         dispatch({type: 'FAILED_INIT'})   
+//     }
+// };
+
 export const updatePost = (id, updatedPost) => async dispatch => {
     dispatch({type: 'LOADING'})
     try {

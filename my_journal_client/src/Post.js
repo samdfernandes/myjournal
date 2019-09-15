@@ -14,7 +14,7 @@ class Post extends Component {
                      onClick={() => this.props.dispatch({type:'EDIT_POST', id:this.props.post.id})}>
                      Edit</button>
                     <button className='delete'
-                     onClick={() => this.props.deletePost(this.props.post.id)}>
+                     onClick={() => this.props.dispatch(() => deletePost(this.props.post.id))}>
                      Delete</button>
                 </div>
 
@@ -29,6 +29,6 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDispatchToProps = ({ deletePost })
+// const mapDispatchToProps = ({ deletePost /*, startEditing */})
 
-export default connect(mapStateToProps, mapDispatchToProps)(Post)
+export default connect(mapStateToProps)(Post)
