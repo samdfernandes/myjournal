@@ -1,15 +1,14 @@
 import React from 'react';
+import '../CSS/landing.css';
 
 function LandingPage() {
   return (
     <div>
-      <img
-        src='https://images.unsplash.com/photo-1551643577-371f44141d4a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80'
-        alt='journal'
-      />
       <h1>MyJournal</h1>
-      <button>Sign In</button>
-      <button>Register</button>
+      <img
+        alt='user'
+        src='https://images.unsplash.com/photo-1544654842-4f3ff5458a6c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80'
+      />
     </div>
   );
 }

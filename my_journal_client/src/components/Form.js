@@ -1,105 +1,78 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { newEntry } from '../actions/entriesActions';
-import Input from './Input';
-import mapStateToProps from './Entries';
+// import { newEntry } from '../actions/entriesActions';
+// import mapStateToProps from './Entries';
 
 class Form extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      title: '',
-      text: '',
-      img: ''
-    };
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleChange(event) {
-    this.setState({
-      [event.target.id]: event.target.value
-    });
-  }
+  //   handleChange(event) {
+  //     this.setState({
+  //       [event.target.id]: event.target.value
+  //     });
+  //   }
 
   handleSubmit(event) {
     event.preventDefault();
-    // this.props.handleSubmit(event, {
+    const title = this.getTitle.value;
+    const text = this.getText.value;
+    const image = this.getImage.value;
+    const data = {
+      title,
+      text,
+      image
+    };
+    this.props.dispatch({
+      type: 'ADD_POST',
+      data
+    });
+    (this.getTitle.value = ''),
+      (this.getText.value = ''),
+      (this.getImage.value = '');
+    // const post = {
     //   title: this.state.title,
     //   text: this.state.text,
     //   img: this.state.img
-    // });
-    // this.setState({
-    //   title: '',
-    //   text: '',
-    //   img: ''
-    // });
-    // if (this.props.entry) {
-    //   this.props.toggleForm();
-    // }
-    const post = {
-      title: this.state.title,
-      text: this.state.text,
-      img: this.state.img
-    };
+    // };
   }
 
-  componentWillMount() {
-    if (this.props.entry) {
-      this.setState({
-        title: this.props.entry.title,
-        text: this.props.entry.text,
-        img: this.props.entry.img,
-        id: this.props.entry.id,
-        user_id: this.props.user.id
-      });
-    }
-  }
+  //   componentWillMount() {
+  //     if (this.props.entry) {
+  //       this.setState({
+  //         title: this.props.entry.title,
+  //         text: this.props.entry.text,
+  //         img: this.props.entry.img,
+  //         id: this.props.entry.id,
+  //         user_id: this.props.user.id
+  //       });
+  //     }
+  //   }
 
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <Input
-          handleChange={this.handleChange}
-          name={'title'}
-          placeholder={
-            this.props.entry ? this.props.entry.title : 'Entry Title'
-          }
-          type={'text'}
-          value={this.state.title}
-          id={'title'}
-        />
-        <Input
-          handleChange={this.handleChange}
-          name={'text'}
-          placeholder={
-            this.props.entry
-              ? this.props.entry.text
-              : 'Your journal entry for today'
-          }
-          type={'textarea'}
-          value={this.state.text}
-          id={'text'}
-        />
-        <Input
-          handleChange={this.handleChange}
-          name={'img'}
-          placeholder={
-            this.props.entry
-              ? this.props.entry.img
-                ? this.props.entry.img
-                : 'image url'
-              : 'image url'
-          }
-          type={'img'}
-          value={this.state.img}
-          id={'img'}
-        />
         <input
-          type='submit'
-          value={this.props.entry ? 'update this entry' : 'add an entry'}
+          required
+          type='text'
+          ref={input => (this.getTitle = input)}
+          placeholder='title'
         />
+        <br />
+        <textarea
+          required
+          rows='5'
+          cols='28'
+          ref={input => (this.getText = input)}
+          placeholder='Type your entry here'
+        />
+        <br />
+        <input
+          required
+          type='text'
+          ref={input => (this.getImage = input)}
+          placeholder='image url'
+        />
+        <br />
+        <button>Post</button>
       </form>
     );
   }
@@ -109,4 +82,10 @@ class Form extends Component {
 //   newEntry: PropTypes.func.isRequired
 // };
 
-export default (mapStateToProps, { newEntry })(Form);
+const mapStateToProps = state => {
+  return {
+    posts: state
+  };
+};
+
+export default connect()(Form);

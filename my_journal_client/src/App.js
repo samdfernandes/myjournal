@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-
 import LandingPage from './components/LandingPage';
-import NewEntry from './components/NewEntry';
-import MyJournal from './components/MyJournal';
-import store from './store';
-//
-
+import Form from './components/Form';
+import Entries from './components/Entries';
+import { createStore } from 'redux';
+import postReducer from './reducers/postReducer';
 import axios from 'axios';
-// import SignIn from './components/SignIn'
+
+const store = createStore(postReducer);
 
 class App extends Component {
   // this.handleDelete = this.handleDelete.bind(this);
@@ -53,13 +52,10 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <div className='container'>
-          <LandingPage />
-
-          <NewEntry />
-          <hr />
-          <MyJournal />
-        </div>
+        <LandingPage />
+        <Form />
+        <hr />
+        <Entries />
       </Provider>
     );
   }

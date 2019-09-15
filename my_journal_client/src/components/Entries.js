@@ -2,32 +2,35 @@ import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getEntries, newEntry } from '../actions/entriesActions';
+// import { getEntries, newEntry } from '../actions/entriesActions';
 
-import Entry from './Entry';
+// import Entry from './Entry';
 
 class Entries extends Component {
-  componentWillMount() {
-    this.props.getEntries();
-  }
+  // componentWillMount() {
+  //   this.props.getEntries();
+  // }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.createEntry) {
-      this.props.entries.push(nextProps.createEntry);
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   if (nextProps.newEntry) {
+  //     this.props.entries.push(nextProps.newEntry);
+  //   }
+  // }
 
   render() {
     // const { handleDelete, handleUpdate } = props;
-    const entries = this.props.entries.map(entry => (
-      <div key={entry.id}>
-        <h3>{entry.title}</h3>
-        <p>{entry.text}</p>
-        {/* handleDelete={handleDelete}
-    handleUpdate={handleUpdate}*/}
+    {
+      /* handleDelete={handleDelete}
+    handleUpdate={handleUpdate}*/
+    }
+    return (
+      <div>
+        <h2>All Posts</h2>
+        {this.props.posts.map(post => (
+          <Post key={post.id} post={post} />
+        ))}
       </div>
-    ));
-    return <div>{entries}</div>;
+    );
   }
 }
 
@@ -36,12 +39,14 @@ class Entries extends Component {
 //   entries: PropTypes.array.isRequired
 // };
 
-const mapStateToProps = state => ({
-  entries: state.entries.items,
-  createEntry: state.entries.item
-});
+const mapStateToProps = state => {
+  return {
+    // entries: state,
+    posts: state
+  };
+};
 
 export default connect(
-  mapStateToProps,
-  { getEntries }
+  mapStateToProps
+  // { getEntries }
 )(Entries);
