@@ -4,7 +4,7 @@ class EntriesController < ApplicationController
   # GET /entries
   def index
 
-    @entries = Entry.all
+    @entries = Entry.all.reverse
 
     render json: @entries
   end
@@ -45,4 +45,5 @@ class EntriesController < ApplicationController
     def entry_params
       params.require(:entry).permit(:title, :text, :img, :counters)
     end
+
 end

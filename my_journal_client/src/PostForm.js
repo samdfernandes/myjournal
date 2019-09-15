@@ -1,21 +1,18 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { addPost } from './Reducers/actions'
 
 class PostForm extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         const title = this.getTitle.value;
-        const message = this.getMessage.value;
+        const text = this.getMessage.value;
         const data = {
-            id: new Date(),
             title,
-            message,
+            text,
             editing: false
         }
-        this.props.dispatch({
-            type: 'ADD_POST',
-            data
-        })
+        this.props.addPost(data)
         this.getTitle.value = '';
         this.getMessage.value = '';
     }
@@ -34,4 +31,14 @@ class PostForm extends Component {
     }
 }
 
-export default connect()(PostForm)
+const mapStateToProps = (state) => {
+    return {
+        newPost: state
+    }
+}
+
+
+const mapDispatchToProps = ({ addPost })
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostForm)

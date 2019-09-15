@@ -1,16 +1,19 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { updatePost } from './Reducers/actions'
 
 class EditComponent extends Component {
     handleEdit = (event) => {
         event.preventDefault();
-        const newTitle = this.getTitle.value;
-        const newMessage = this.getMessage.value;
+        const title = this.getTitle.value;
+        const text = this.getMessage.value;
         const data = {
-            newTitle,
-            newMessage
+            title: title,
+            text: text,
+            id: this.props.post.id
         }
-        this.props.dispatch({ type: 'UPDATE', id: this.props.post.id, data:data })
+        this.props.updatePost(this.props.post.id, data)
+        this.props.post.editing=!this.props.post.editing
     }
 
     render(){
@@ -18,7 +21,7 @@ class EditComponent extends Component {
             <div key={this.props.post.id} className='post'>
                 <form onSubmit={this.handleEdit} className='form'>
                     <input required type="text" ref={(input) => this.getTitle = input} defaultValue={this.props.post.title} placeholder="Your Post Title" /><br/><br />
-                    <textarea required rows="25" cols="150" ref={(input) => this.getMessage = input} defaultValue={this.props.post.message} placeholder="Write your post entry here" /><br/><br/>
+                    <textarea required rows="25" cols="150" ref={(input) => this.getMessage = input} defaultValue={this.props.post.text} placeholder="Write your post entry here" /><br/><br/>
                     <button>Update</button>
                 </form>
             </div>
@@ -27,4 +30,12 @@ class EditComponent extends Component {
     }
 }
 
-export default connect()(EditComponent)
+const mapStateToProps = (state) => {
+    return {
+        posts: state
+    }
+}
+
+const mapDispatchToProps = ({ updatePost })
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditComponent)
