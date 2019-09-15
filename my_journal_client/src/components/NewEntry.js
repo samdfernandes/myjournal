@@ -1,15 +1,13 @@
-import React from 'react'
-import Form from './Form'
+import React from 'react';
+import Form from './Form';
 
-function NewEntry (props) {
-    return (
-        <div>
-            <h2>New Entry</h2>
-            <Form handleSubmit={props.handleSubmit} user={props.user}/>
-        </div>
-    )
+function NewEntry(props) {
+  return (
+    <div>
+      <h2>New Entry</h2>
+      <Form />
+    </div>
+  );
 }
 
-
-
-export default NewEntry
+export default NewEntry;

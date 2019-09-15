@@ -13,8 +13,9 @@ class UsersController < ApplicationController
     user_entries = @user.entries
     # user_entries.created_at = t.created_at.strftime("%a, %m/%d/%y at %I:%M %p")
     render json: @user.to_json(include: :entries)
-
   end
+
+
 
   # POST /users
   def create

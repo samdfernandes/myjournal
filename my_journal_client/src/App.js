@@ -1,98 +1,68 @@
 import React, { Component } from 'react';
-import Navigation from './components/Navigation';
-import LandingPage from './components/LandingPage';
-import NewEntry from './components/NewEntry'
-import MyJournal from './components/MyJournal'
-// 
+import { Provider } from 'react-redux';
 
-import axios from 'axios'
+import LandingPage from './components/LandingPage';
+import NewEntry from './components/NewEntry';
+import MyJournal from './components/MyJournal';
+import store from './store';
+//
+
+import axios from 'axios';
 // import SignIn from './components/SignIn'
 
 class App extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      user: {},
-      entries: [],
+  // this.handleDelete = this.handleDelete.bind(this);
+  // this.handleUpdate = this.handleUpdate.bind(this);
+  // }
+
+  async handleAdd(event, formInputs) {
+    event.preventDefault();
+    await axios.post('http://localhost:3000/users/1/entries', formInputs);
+    this.setState({
       formInputs: {
         user_id: '',
         title: '',
         text: '',
         img: ''
       }
-    }
-    this.handleAdd = this.handleAdd.bind(this)
-    this.handleDelete = this.handleDelete.bind(this)
-    this.handleUpdate = this.handleUpdate.bind(this)
-  }
-
-  async getData() {
-    const response = await axios.get('http://localhost:3000/users/1')
-    const data = response.data
-    this.setState({
-      user: data,
-      entries: data.entries
-    })
-
-    console.log(this.state.user);
-  }
-
-  componentDidMount(){
-    this.getData()
-  }
-
-  async handleAdd(event, formInputs) {
-    event.preventDefault()
-    await axios.post('http://localhost:3000/users/1/entries', formInputs)
-    this.setState({
-      formInputs:{
-        user_id: '',
-        title: '',
-        text: '',
-        img: ''
-      }
-    })
-    this.getData()
+    });
+    this.getData();
   }
 
   async handleDelete(deletedEntry) {
-    await axios.delete(`http://localhost:3000/users/1/entries/${deletedEntry.id}`)
-    this.getData()
+    await axios.delete(
+      `http://localhost:3000/users/1/entries/${deletedEntry.id}`
+    );
+    this.getData();
   }
 
   handleSubmit(event) {
-    event.preventDefault()
-    console.log(this.state.formInputs)
+    event.preventDefault();
+    console.log(this.state.formInputs);
   }
 
-  async handleUpdate (event, formInputs) {
-    event.preventDefault()
-    await axios.put(`http://localhost:3000/users/1/entries/${formInputs.id}`, formInputs)
-    this.getData()
+  async handleUpdate(event, formInputs) {
+    event.preventDefault();
+    await axios.put(
+      `http://localhost:3000/users/1/entries/${formInputs.id}`,
+      formInputs
+    );
+    this.getData();
   }
 
-  render () {
+  render() {
     return (
-      <div className="App">
-        <div className="container">
-          <Navigation />
-
+      <Provider store={store}>
+        <div className='container'>
           <LandingPage />
-          
-          <NewEntry 
-          handleSubmit={this.handleAdd} 
-          user={this.state.user}/>
 
-          <MyJournal 
-          entries={this.state.entries}
-          handleDelete={this.handleDelete}
-          handleUpdate={this.handleUpdate}/>
-
+          <NewEntry />
+          <hr />
+          <MyJournal />
         </div>
-      </div>
+      </Provider>
     );
   }
-
 }
 
 export default App;
