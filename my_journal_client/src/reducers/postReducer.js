@@ -17,7 +17,7 @@ const postReducer = (state = [], action) => {
                 } else  return post
             })
         case 'FAILED_INIT':
-            return
+            return state;
         default:
             return state;
     }

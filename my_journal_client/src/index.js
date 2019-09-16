@@ -8,7 +8,7 @@ import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 
 //Files
-import postReducer from './Reducers/postReducer'
+import postReducer from './reducers/postReducer'
 
 const middleware = applyMiddleware(thunk)
 const store = createStore(postReducer, composeWithDevTools(middleware))
