@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { getPosts } from './Reducers/actions'
+import { getPosts } from './reducers/actions'
 
 import Post from './Post'
 import EditComponent from './EditComponent'

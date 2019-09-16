@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { addPost } from './Reducers/actions'
+import { addPost } from './reducers/actions'
 
 class PostForm extends Component {
     handleSubmit = (event) => {
