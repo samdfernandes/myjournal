@@ -4,7 +4,7 @@
   "private": true,
   "proxy": "http://localhost:3001",
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "formik": "^1.5.8",
     "ibm-watson": "^4.4.0",
     "prop-types": "^15.7.2",
